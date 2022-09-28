@@ -1,7 +1,7 @@
 const LimitSizeStream = require('./LimitSizeStream');
 const fs = require('fs');
 
-const limitedStream = new LimitSizeStream({limit: 8, encoding: 'utf-8'}); // 8 байт
+const limitedStream = new LimitSizeStream({ limit: 8, encoding: 'utf-8' }); // 8 байт
 const outStream = fs.createWriteStream('out.txt');
 
 limitedStream.pipe(outStream);
