@@ -12,6 +12,8 @@ function checker(settings = {}, testing = {}) {
   const errors = validator.validate(testing);
   let settingsKey = Object.keys(settings);
 
+  expect(errors.length).not.equal(0);
+
   /// Случай с неверным типом в else
   if (errors.length === settingsKey.length) {
     expect(errors).length(settingsKey.length);
@@ -25,20 +27,18 @@ function checker(settings = {}, testing = {}) {
 
   for (const key of settingsKey) {
     const currentErr = errorIterator.next().value;
+    let testingValues;
 
     expect(currentErr).property('field').and.equal(key);
     switch (key) {
       case 'name':
-        expect(currentErr)
-          .property('error')
-          .and.oneOf([`too short, expect ${settings.name.min}, got ${testing.name.length}`, `too long, expect ${settings.name.max}, got ${testing.name.length}`, `expect ${settings.name.type}, got ${typeof testing.name}`]);
+        testingValues = [`too short, expect ${settings[key].min}, got ${testing[key].length}`, `too long, expect ${settings[key].max}, got ${testing[key].length}`, `expect ${settings[key].type}, got ${typeof testing[key]}`];
         break;
       case 'age':
-        expect(currentErr)
-          .property('error')
-          .and.oneOf([`too little, expect ${settings.age.min}, got ${testing.age}`, `too big, expect ${settings.age.max}, got ${testing.age}`, `expect ${settings.age.type}, got ${typeof testing.age}`]);
+        testingValues = [`too little, expect ${settings[key].min}, got ${testing[key]}`, `too big, expect ${settings[key].max}, got ${testing[key]}`, `expect ${settings[key].type}, got ${typeof testing[key]}`];
         break;
     }
+    if (testingValues) expect(currentErr).property('error').and.oneOf(testingValues);
   }
 }
 
