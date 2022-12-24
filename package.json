@@ -4,6 +4,7 @@
   "description": "Node.JS Course Materials",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --no-warnings --ignore=node_modules/** **/*.test.js",
+    "test-mocha": "mocha --timeout 2000 --exit",
     "lint": "eslint --ignore-pattern 'public' --ignore-pattern '*.test.js' --ignore-pattern 'client' ."
   },
   "keywords": [],
